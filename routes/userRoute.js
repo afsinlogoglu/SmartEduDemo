@@ -12,5 +12,4 @@ router.route('/dashboard').get(authMiddleware, authController.getDashboardPage);
 
 
 
-
 module.exports = router;
