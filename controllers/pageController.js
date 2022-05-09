@@ -31,7 +31,8 @@ exports.getIndexPage = (req, res) => {
   }
 
   exports.sendEmail = async (req, res) => {
-    const outputMessage = `
+    try {
+      const outputMessage = `
     <h1>Mail Detail </h1>
     <ul>
     <li>Name: ${req.body.name} </li>
@@ -46,16 +47,24 @@ exports.getIndexPage = (req, res) => {
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: "afsinlogoglu@gmail.com", // gmail account
+      user: "test@gmail.com", // gmail account
       pass: "123", // gmail password
     },
   });
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Smart Edu Contact Form" <afsinlogoglu@gmail.com>', // sender address
+    from: '"Smart Edu Contact Form" <test@gmail.com>', // sender address
     to: "bar@example.com", // list of receivers
     subject: "Hello ✔", // Subject line
     html: outputMessage, // html body
   });
+
+  req.flash("success", "We received your message successfully ;)");
   res.status(200).redirect('/contact');
+
+    } catch (error) {
+      req.flash("error", `Something happened :( Error : ${error}`);
+      res.status(400).redirect('/contact');
+    }
+    
   }
