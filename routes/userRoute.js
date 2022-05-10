@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route('/signup').post([
     body('name').not().isEmpty().withMessage('Please enter your name'),
-    body('email').isEmail.withMessage('Please enter your email')
+    body('email').isEmail().withMessage('Please enter your email')
     .custom((userEmail)=>{
         return User.findOne({email: userEmail}).then(user =>{
             if(user){
