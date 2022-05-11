@@ -1,8 +1,14 @@
 const nodemailer = require('nodemailer');
+const User = require('../models/User');
 
-exports.getIndexPage = (req, res) => {
+exports.getIndexPage = async (req, res) => {
+  const totalStudents = await User.countDocuments({role: 'Student'})
+  const totalTeachers = await User.countDocuments({role: 'Teacher'})
+
     res.status(200).render('index',{
-        page_name: "index"
+        page_name: "index",
+        totalStudents,
+        totalTeachers
     });
   }
 
